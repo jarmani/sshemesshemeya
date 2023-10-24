@@ -30,7 +30,7 @@ type form struct {
 
 const captchaLen = 4
 const sendIndex = 4
-const responsiveBreakpoint = 64
+const responsiveBreakpoint = 68
 
 func NewForm() form {
 	f := form{}
