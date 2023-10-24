@@ -119,7 +119,7 @@ func (m model) View() string {
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Info("No .env file loaded")
 	}
 
 	if len(os.Getenv("BANNER")) > 0 {
