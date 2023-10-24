@@ -263,6 +263,6 @@ func (f form) View() string {
 			"Copy the code:\n"+lipgloss.PlaceHorizontal(f.width-16, lipgloss.Center, lipgloss.JoinHorizontal(lipgloss.Top, f.captcha.View(), "\n => ", renderWithBorder(3, f.captchaInput.View()))),
 			renderButton(4, "Send !"),
 		),
-		lipgloss.NewStyle().Foreground(lipgloss.Color("241")).Render(fmt.Sprintf("Tab/↓/→: Next • Shift+Tab/↑/←: Prev %s ⌃s: Send • Esc: Quit • 0.1.0", forceBreak)),
+		lipgloss.NewStyle().Foreground(lipgloss.Color("241")).Render(fmt.Sprintf("Tab/↓/→: Next • Shift+Tab/↑/←: Prev %s ctrl+s: Send • Esc: Quit • 0.1.0", forceBreak)),
 	)
 }
