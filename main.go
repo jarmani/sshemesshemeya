@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"errors"
+	"flag"
 	"fmt"
 	"os"
 	"os/exec"
@@ -117,6 +118,19 @@ func (m model) View() string {
 }
 
 func main() {
+
+	noServer := flag.Bool("noserver", false, "useful to test localy")
+	flag.Parse()
+
+	if *noServer {
+		p := tea.NewProgram(initialModel(), tea.WithAltScreen())
+		if _, err := p.Run(); err != nil {
+			fmt.Printf("Alas, there's been an error: %v", err)
+			os.Exit(1)
+		}
+		os.Exit(0)
+	}
+
 	err := godotenv.Load()
 	if err != nil {
 		log.Info("No .env file loaded")
