@@ -44,7 +44,7 @@ var Config = struct {
 	emailArgs: "",
 }
 
-type contact struct {
+type model struct {
 	term     string
 	width    int
 	height   int
@@ -53,15 +53,15 @@ type contact struct {
 	ended    bool
 }
 
-func newContact() (*contact, error) {
+func initialModel() model {
 
 	form := NewForm()
 	confetti := NewConfettiModel()
 
-	return &contact{
+	return model{
 		form:     form,
 		confetti: confetti,
-	}, nil
+	}
 }
 
 func SendMail(name string, email string, content string) error {
@@ -76,44 +76,44 @@ func SendMail(name string, email string, content string) error {
 	return sendmail.Run()
 }
 
-func (e contact) Init() tea.Cmd {
+func (m model) Init() tea.Cmd {
 	return nil
 }
 
-func (e contact) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case FormComplete:
 		log.Info("New contact", "name", msg.name, "email", msg.email, "content", msg.content)
 		SendMail(msg.name, msg.email, msg.content)
-		e.ended = true
-		e.confetti.Update(tea.WindowSizeMsg{Width: e.width, Height: e.height})
-		return e, animate()
+		m.ended = true
+		m.confetti.Update(tea.WindowSizeMsg{Width: m.width, Height: m.height})
+		return m, animate()
 	case tea.WindowSizeMsg:
-		e.width = msg.Width
-		e.height = msg.Height
+		m.width = msg.Width
+		m.height = msg.Height
 	case tea.KeyMsg:
 		switch msg.String() {
 		case "ctrl+c", "esc":
-			return e, tea.Quit
+			return m, tea.Quit
 
 		}
 	}
 	var cmd tea.Cmd
-	if e.ended {
-		e.confetti, cmd = e.confetti.Update(msg)
+	if m.ended {
+		m.confetti, cmd = m.confetti.Update(msg)
 	} else {
-		e.form, cmd = e.form.Update(msg)
+		m.form, cmd = m.form.Update(msg)
 	}
-	return e, cmd
+	return m, cmd
 }
 
-func (e contact) View() string {
+func (m model) View() string {
 
-	if e.ended {
-		return e.confetti.View()
+	if m.ended {
+		return m.confetti.View()
 	}
 
-	return e.form.View()
+	return m.form.View()
 }
 
 func main() {
@@ -191,8 +191,8 @@ func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
 		wish.Fatalln(s, "no active terminal, skipping")
 		return nil, nil
 	}
-	m, _ := newContact()
 
+	m := initialModel()
 	m.term = pty.Term
 	m.width = pty.Window.Width
 	m.height = pty.Window.Height
