@@ -119,10 +119,10 @@ func (m model) View() string {
 
 func main() {
 
-	noServer := flag.Bool("noserver", false, "useful to test localy")
+	localUi := flag.Bool("local-ui", false, "expose UI locally, disable server, usefull for testing")
 	flag.Parse()
 
-	if *noServer {
+	if *localUi {
 		p := tea.NewProgram(initialModel(), tea.WithAltScreen())
 		if _, err := p.Run(); err != nil {
 			fmt.Printf("Alas, there's been an error: %v", err)

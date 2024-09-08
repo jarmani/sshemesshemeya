@@ -1,4 +1,4 @@
-module github.com/ssh-contact-form
+module github.com/jarmani/sshemesshemeya
 
 go 1.21.1
 
