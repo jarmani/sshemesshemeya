@@ -8,7 +8,7 @@ A fully interactive contact form accessible via SSH, designed for secure and eff
 
 ## Key features
 
-- Fully configurable using environement variable
+- Fully configurable using environment variable
 - Input validation
 - Navigation using Tab/Shift-Tab
 - Email submission to the configured address
